@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر قصص الأطفال - عالم الخيال</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B9D;
+            --secondary: #FFA500;
+            --accent: #4ECDC4;
+            --purple: #9B59B6;
+            --green: #2ECC71;
+            --bg: #FFF9E6;
+            --card-bg: #FFFFFF;
+            --text: #2C3E50;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFE4E1 50%, #E6F3FF 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 107, 157, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 165, 0, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--purple) 100%);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .header::before {
+            content: '📚 ✨ 🌟 📖 🎨 🦄 🌈 🎪';
+            position: absolute;
+            top: 50%;
+            left: -100%;
+            width: 200%;
+            font-size: 40px;
+            opacity: 0.2;
+            animation: scroll 30s linear infinite;
+            transform: translateY(-50%);
+        }
+
+        @keyframes scroll {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        h1 {
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 3.5em;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+            animation: bounceIn 1s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .subtitle {
+            color: white;
+            font-size: 1.3em;
+            font-weight: 400;
+            position: relative;
+            z-index: 2;
+        }
+
+        .price-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(255, 165, 0, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .story-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 0;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .story-card:nth-child(1) { animation-delay: 0.1s; }
+        .story-card:nth-child(2) { animation-delay: 0.15s; }
+        .story-card:nth-child(3) { animation-delay: 0.2s; }
+        .story-card:nth-child(4) { animation-delay: 0.25s; }
+        .story-card:nth-child(5) { animation-delay: 0.3s; }
+        .story-card:nth-child(n+6) { animation-delay: 0.35s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .story-card:hover {
+            transform: translateY(-15px) rotate(1deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .story-header {
+            padding: 30px;
+            position: relative;
+            color: white;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .story-icon {
+            font-size: 4em;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .story-card:nth-child(1) .story-header { background: linear-gradient(135deg, #FF6B9D 0%, #FF8FAB 100%); }
+        .story-card:nth-child(2) .story-header { background: linear-gradient(135deg, #4ECDC4 0%, #6FD9D1 100%); }
+        .story-card:nth-child(3) .story-header { background: linear-gradient(135deg, #FFA500 0%, #FFB833 100%); }
+        .story-card:nth-child(4) .story-header { background: linear-gradient(135deg, #9B59B6 0%, #B07CC6 100%); }
+        .story-card:nth-child(5) .story-header { background: linear-gradient(135deg, #2ECC71 0%, #54D98C 100%); }
+        .story-card:nth-child(6) .story-header { background: linear-gradient(135deg, #E74C3C 0%, #EC6D5E 100%); }
+        .story-card:nth-child(7) .story-header { background: linear-gradient(135deg, #3498DB 0%, #5DADE2 100%); }
+        .story-card:nth-child(8) .story-header { background: linear-gradient(135deg, #F39C12 0%, #F5B041 100%); }
+        .story-card:nth-child(9) .story-header { background: linear-gradient(135deg, #1ABC9C 0%, #48C9B0 100%); }
+        .story-card:nth-child(10) .story-header { background: linear-gradient(135deg, #E91E63 0%, #F06292 100%); }
+        .story-card:nth-child(11) .story-header { background: linear-gradient(135deg, #9C27B0 0%, #BA68C8 100%); }
+        .story-card:nth-child(12) .story-header { background: linear-gradient(135deg, #FF5722 0%, #FF8A65 100%); }
+        .story-card:nth-child(13) .story-header { background: linear-gradient(135deg, #00BCD4 0%, #4DD0E1 100%); }
+        .story-card:nth-child(14) .story-header { background: linear-gradient(135deg, #8BC34A 0%, #AED581 100%); }
+        .story-card:nth-child(15) .story-header { background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%); }
+        .story-card:nth-child(16) .story-header { background: linear-gradient(135deg, #673AB7 0%, #9575CD 100%); }
+        .story-card:nth-child(17) .story-header { background: linear-gradient(135deg, #03A9F4 0%, #4FC3F7 100%); }
+        .story-card:nth-child(18) .story-header { background: linear-gradient(135deg, #CDDC39 0%, #DCE775 100%); }
+        .story-card:nth-child(19) .story-header { background: linear-gradient(135deg, #FF6F00 0%, #FFA726 100%); }
+        .story-card:nth-child(20) .story-header { background: linear-gradient(135deg, #D32F2F 0%, #E57373 100%); }
+
+        .story-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.8em;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .story-body {
+            padding: 25px;
+        }
+
+        .story-description {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, var(--secondary) 0%, #FFB833 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 165, 0, 0.3);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.5);
+        }
+
+        .buy-button:active {
+            transform: scale(0.95);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #E74C3C;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .close-button:hover {
+            background: #C0392B;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-icon {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-family: 'Tajawal', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .modal-description {
+            font-size: 1.2em;
+            line-height: 2;
+            color: #555;
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+
+        .modal-buy-button {
+            background: linear-gradient(135deg, var(--green) 0%, #54D98C 100%);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.4em;
+            font-weight: 900;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .modal-buy-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(46, 204, 113, 0.6);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--primary) 100%);
+            color: white;
+            margin-top: 60px;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .stories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌈 عالم قصص الأطفال السحري 🌟</h1>
+        <p class="subtitle">اكتشف عالماً مليئاً بالمغامرات والخيال</p>
+        <div class="price-tag">كل قصة بـ 20 جنيه فقط! 🎉</div>
+    </div>
+
+    <div class="container">
+        <div class="stories-grid">
+            <!-- Story 1 -->
+            <div class="story-card" onclick="openModal(1)">
+                <div class="story-header">
+                    <span class="story-icon">🦁</span>
+                    <h3 class="story-title">الأسد الشجاع</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة مثيرة عن أسد صغير يتعلم معنى الشجاعة الحقيقية...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 2 -->
+            <div class="story-card" onclick="openModal(2)">
+                <div class="story-header">
+                    <span class="story-icon">🦋</span>
+                    <h3 class="story-title">الفراشة الملونة</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">رحلة ساحرة عبر حديقة مليئة بالأزهار والألوان الجميلة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 3 -->
+            <div class="story-card" onclick="openModal(3)">
+                <div class="story-header">
+                    <span class="story-icon">🌟</span>
+                    <h3 class="story-title">النجمة الصغيرة</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة مؤثرة عن نجمة صغيرة تحلم بأن تضيء السماء...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 4 -->
+            <div class="story-card" onclick="openModal(4)">
+                <div class="story-header">
+                    <span class="story-icon">🐘</span>
+                    <h3 class="story-title">الفيل الطيب</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة رائعة لفيل صغير يساعد أصدقاءه في الغابة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 5 -->
+            <div class="story-card" onclick="openModal(5)">
+                <div class="story-header">
+                    <span class="story-icon">🌈</span>
+                    <h3 class="story-title">قوس قزح السعادة</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة جميلة عن كيف ظهر قوس قزح لأول مرة في السماء...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 6 -->
+            <div class="story-card" onclick="openModal(6)">
+                <div class="story-header">
+                    <span class="story-icon">🐰</span>
+                    <h3 class="story-title">الأرنب السريع</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة مشوقة لأرنب سريع يشارك في سباق كبير...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 7 -->
+            <div class="story-card" onclick="openModal(7)">
+                <div class="story-header">
+                    <span class="story-icon">🐬</span>
+                    <h3 class="story-title">الدولفين المرح</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">رحلة ممتعة في أعماق البحر مع دولفين محب للعب...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 8 -->
+            <div class="story-card" onclick="openModal(8)">
+                <div class="story-header">
+                    <span class="story-icon">🦊</span>
+                    <h3 class="story-title">الثعلب الذكي</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة مسلية عن ثعلب ذكي يحل المشاكل بطرق إبداعية...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 9 -->
+            <div class="story-card" onclick="openModal(9)">
+                <div class="story-header">
+                    <span class="story-icon">🌺</span>
+                    <h3 class="story-title">حديقة الأحلام</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة ساحرة عن حديقة سحرية حيث تتحقق الأمنيات...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 10 -->
+            <div class="story-card" onclick="openModal(10)">
+                <div class="story-header">
+                    <span class="story-icon">🎨</span>
+                    <h3 class="story-title">الرسام الصغير</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة فنية لطفل يحب الرسم وألوانه تنبض بالحياة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 11 -->
+            <div class="story-card" onclick="openModal(11)">
+                <div class="story-header">
+                    <span class="story-icon">🦄</span>
+                    <h3 class="story-title">الحصان الطائر</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة خيالية عن حصان جميل له أجنحة يطير في السماء...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 12 -->
+            <div class="story-card" onclick="openModal(12)">
+                <div class="story-header">
+                    <span class="story-icon">🍎</span>
+                    <h3 class="story-title">شجرة التفاح السحرية</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة رائعة عن شجرة تفاح تعطي تفاحاً بألوان قوس قزح...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 13 -->
+            <div class="story-card" onclick="openModal(13)">
+                <div class="story-header">
+                    <span class="story-icon">🐙</span>
+                    <h3 class="story-title">الأخطبوط المساعد</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة بحرية مع أخطبوط طيب يساعد كل حيوانات البحر...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 14 -->
+            <div class="story-card" onclick="openModal(14)">
+                <div class="story-header">
+                    <span class="story-icon">🌻</span>
+                    <h3 class="story-title">عباد الشمس السعيد</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة جميلة عن زهرة عباد الشمس التي تنشر السعادة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 15 -->
+            <div class="story-card" onclick="openModal(15)">
+                <div class="story-header">
+                    <span class="story-icon">🎪</span>
+                    <h3 class="story-title">السيرك المذهل</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة مثيرة في سيرك مليء بالعروض الرائعة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 16 -->
+            <div class="story-card" onclick="openModal(16)">
+                <div class="story-header">
+                    <span class="story-icon">🦅</span>
+                    <h3 class="story-title">النسر الحكيم</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة ملهمة عن نسر حكيم يعلم الحيوانات دروساً مهمة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 17 -->
+            <div class="story-card" onclick="openModal(17)">
+                <div class="story-header">
+                    <span class="story-icon">⛵</span>
+                    <h3 class="story-title">القارب المغامر</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">رحلة بحرية ممتعة مع قارب صغير يستكشف المحيط...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 18 -->
+            <div class="story-card" onclick="openModal(18)">
+                <div class="story-header">
+                    <span class="story-icon">🐝</span>
+                    <h3 class="story-title">النحلة النشيطة</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة تعليمية عن نحلة تعمل بجد وتصنع أجمل عسل...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 19 -->
+            <div class="story-card" onclick="openModal(19)">
+                <div class="story-header">
+                    <span class="story-icon">🎵</span>
+                    <h3 class="story-title">الموسيقى السحرية</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">مغامرة موسيقية مع آلات موسيقية تعزف ألحاناً جميلة...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+
+            <!-- Story 20 -->
+            <div class="story-card" onclick="openModal(20)">
+                <div class="story-header">
+                    <span class="story-icon">🌙</span>
+                    <h3 class="story-title">القمر والنجوم</h3>
+                </div>
+                <div class="story-body">
+                    <p class="story-description">قصة ساحرة عن صداقة القمر والنجوم في سماء الليل...</p>
+                    <button class="buy-button">اشترِ الآن - 20 ج.م</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        جميع القصص مصممة خصيصاً لإسعاد أطفالكم 💖
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">×</button>
+            <div class="modal-header">
+                <span class="modal-icon" id="modalIcon"></span>
+                <h2 class="modal-title" id="modalTitle"></h2>
+            </div>
+            <p class="modal-description" id="modalDescription"></p>
+            <button class="modal-buy-button" onclick="buyStory()">اشترِ الآن بـ 20 جنيه 🛒</button>
+        </div>
+    </div>
+
+    <script>
+        const stories = [
+            {
+                icon: '🦁',
+                title: 'الأسد الشجاع',
+                description: 'في قلب الغابة الكبيرة، كان يعيش أسد صغير اسمه ليون. كان ليون خائفاً من كل شيء، حتى من الفراشات الصغيرة! لكن في يوم من الأيام، سمع صوت استغاثة. كان صديقه الأرنب محتاجاً للمساعدة. نسي ليون كل خوفه وهرع لمساعدة صديقه. اكتشف ليون أن الشجاعة الحقيقية ليست عدم الخوف، بل القيام بالشيء الصحيح رغم الخوف. منذ ذلك اليوم، أصبح ليون أشجع أسد في الغابة، وتعلم جميع أصدقاؤه منه أن الشجاعة موجودة في قلب كل واحد منا!'
+            },
+            {
+                icon: '🦋',
+                title: 'الفراشة الملونة',
+                description: 'في حديقة جميلة، ولدت فراشة صغيرة اسمها فلورا. كانت فلورا تملك أجنحة بألوان قوس قزح الجميلة. كل يوم، كانت فلورا تطير من زهرة إلى زهرة، وفي كل مكان تحط فيه، تتفتح الأزهار بألوان أكثر جمالاً. أصبحت فلورا صديقة لكل الحشرات في الحديقة. علمت فلورا الجميع أن الجمال الحقيقي يأتي من الداخل، وأن نشر السعادة والفرح هو ما يجعل العالم مكاناً أجمل. القصة مليئة بالألوان والمغامرات الجميلة!'
+            },
+            {
+                icon: '🌟',
+                title: 'النجمة الصغيرة',
+                description: 'في السماء العالية، كانت هناك نجمة صغيرة اسمها نورا. كانت نورا أصغر النجوم وأقلها ضوءاً. حزنت نورا كثيراً لأنها ظنت أنها غير مهمة. لكن في ليلة ظلماء، ضاع طفل صغير في الغابة. كانت نورا النجمة الوحيدة في السماء، فأضاءت بكل قوتها وساعدت الطفل على إيجاد طريق العودة. تعلمت نورا أن كل واحد منا مميز ومهم، وأن حجمنا لا يحدد قيمتنا. الآن أصبحت نورا أسعد نجمة في السماء، تضيء كل ليلة بفخر!'
+            },
+            {
+                icon: '🐘',
+                title: 'الفيل الطيب',
+                description: 'في الغابة الواسعة، عاش فيل كبير وطيب اسمه فادي. كان فادي يحب مساعدة الجميع. في يوم حار جداً، جفت كل مصادر المياه في الغابة. شعر جميع الحيوانات بالعطش الشديد. استخدم فادي خرطومه القوي وحفر عميقاً في الأرض حتى وجد الماء. تدفقت المياه النقية وشرب جميع الحيوانات. شكر الجميع فادي على طيبته ومساعدته. تعلم جميع الحيوانات أن المساعدة والتعاون يجعلان الحياة أجمل، وأن القوة الحقيقية تكمن في استخدامها لمساعدة الآخرين!'
+            },
+            {
+                icon: '🌈',
+                title: 'قوس قزح السعادة',
+                description: 'كان هناك زمن لم يكن فيه قوس قزح في السماء. كانت السماء رمادية بعد المطر. في يوم من الأيام، اجتمعت كل الألوان معاً وقررت أن تصنع شيئاً جميلاً. اتفقت الألوان على أن تتعاون وتشكل قوساً جميلاً في السماء بعد كل مطر. الأحمر، البرتقالي، الأصفر، الأخضر، الأزرق، النيلي، والبنفسجي اجتمعوا معاً. منذ ذلك اليوم، يظهر قوس قزح بعد المطر ليذكرنا بأن بعد الصعوبات تأتي الأشياء الجميلة، وأن التعاون يصنع المعجزات!'
+            },
+            {
+                icon: '🐰',
+                title: 'الأرنب السريع',
+                description: 'في المرج الأخضر، عاش أرنب صغير اسمه ريان. كان ريان أسرع أرنب في المرج وكان يحب الجري. أعلن عن سباق كبير في المرج، وشارك فيه جميع الحيوانات. كان ريان متأكداً من فوزه. لكن في منتصف السباق، رأى ريان سلحفاة صغيرة عالقة في حفرة. توقف ريان عن السباق وساعد السلحفاة. وصل ريان متأخراً، لكنه شعر بسعادة كبيرة. تعلم الجميع أن الفوز الحقيقي ليس في السرعة، بل في القلب الطيب والمساعدة!'
+            },
+            {
+                icon: '🐬',
+                title: 'الدولفين المرح',
+                description: 'في أعماق البحر الأزرق، عاش دولفين جميل اسمه دودي. كان دودي يحب اللعب والقفز فوق الأمواج. كان دودي دائماً يبحث عن أصدقاء جدد. في يوم من الأيام، وجد دودي سمكة صغيرة حزينة لأنها بعيدة عن أمها. ساعد دودي السمكة على إيجاد أمها من خلال استخدام أصوات خاصة تحت الماء. عندما التقت السمكة بأمها، كانت السعادة تملأ المحيط كله. أصبح دودي صديقاً لكل الأسماك، وأصبح البحر مكاناً مليئاً بالفرح والسعادة!'
+            },
+            {
+                icon: '🦊',
+                title: 'الثعلب الذكي',
+                description: 'في الغابة الكبيرة، عاش ثعلب ذكي اسمه فهد. كان فهد يحب حل الألغاز والمشاكل. في يوم من الأيام، احتاج حيوانات الغابة للعبور فوق نهر عميق، لكن لم يكن هناك جسر. فكر فهد بذكاء وطلب من القنادس أن تقطع الأشجار، ومن النمل أن ينقل الأغصان الصغيرة، ومن الطيور أن تربط الحبال. عملوا جميعاً معاً وبنوا جسراً جميلاً. تعلم الجميع أن الذكاء الحقيقي يكمن في التفكير الإبداعي واستخدام مهارات الجميع لحل المشاكل!'
+            },
+            {
+                icon: '🌺',
+                title: 'حديقة الأحلام',
+                description: 'كان هناك طفلة صغيرة اسمها ليلى تحب الزهور كثيراً. في يوم من الأيام، وجدت ليلى بذرة سحرية في الحديقة. زرعت البذرة واعتنت بها بحب. بعد أيام، نمت شجرة جميلة مليئة بالزهور الملونة. لكن هذه لم تكن زهوراً عادية، بل كانت زهوراً سحرية! كل من يشم رائحة هذه الزهور تتحقق أمنيته. أصبحت حديقة ليلى مكاناً سحرياً يزوره الجميع. تعلمت ليلى أن الاهتمام والحب يصنعان المعجزات، وأن الأحلام تتحقق عندما نعمل بجد!'
+            },
+            {
+                icon: '🎨',
+                title: 'الرسام الصغير',
+                description: 'في قرية جميلة، عاش طفل اسمه آدم يحب الرسم كثيراً. كان آدم يرسم كل يوم بألوانه الجميلة. في يوم من الأيام، حصل آدم على صندوق ألوان سحري. عندما رسم آدم أي شيء بهذه الألوان، يصبح الرسم حقيقياً! رسم آدم أزهاراً جميلة فظهرت أزهار حقيقية، رسم طيوراً فطارت طيور ملونة. استخدم آدم موهبته لجعل القرية أجمل مكان في العالم. تعلم الجميع أن الفن والإبداع يمكنهما تغيير العالم، وأن الموهبة يجب أن نستخدمها لجعل الحياة أجمل!'
+            },
+            {
+                icon: '🦄',
+                title: 'الحصان الطائر',
+                description: 'في مملكة بعيدة، عاش حصان جميل اسمه نجم. كان نجم مختلفاً عن باقي الخيول، فقد كان لديه أجنحة كبيرة وجميلة. في البداية، شعر نجم بالخجل من أجنحته لأنه كان مختلفاً. لكن في يوم من الأيام، احتاجت أميرة صغيرة للمساعدة بسرعة. طار نجم عالياً في السماء وأنقذ الأميرة. أصبح نجم بطلاً في المملكة. تعلم نجم أن الاختلاف ليس عيباً بل هدية خاصة، وأن كل واحد منا لديه شيء مميز يجعله فريداً. الآن أصبح نجم فخوراً بأجنحته!'
+            },
+            {
+                icon: '🍎',
+                title: 'شجرة التفاح السحرية',
+                description: 'في بستان جميل، نمت شجرة تفاح غير عادية. هذه الشجرة كانت تعطي تفاحاً بألوان قوس قزح! كل تفاحة لها لون مختلف ومذاق خاص. التفاحة الحمراء كانت حلوة جداً، والخضراء منعشة، والزرقاء تذوق كالتوت، والصفراء مثل العسل. أصبحت الشجرة مشهورة في كل مكان. كان الأطفال يأتون من كل البلاد لتذوق التفاح السحري. لكن الشجرة كانت تعطي التفاح فقط للأطفال الطيبين الذين يساعدون الآخرين. تعلم الأطفال أن الطيبة واللطف يجلبان أجمل الأشياء في الحياة!'
+            },
+            {
+                icon: '🐙',
+                title: 'الأخطبوط المساعد',
+                description: 'في قاع البحر العميق، عاش أخطبوط لطيف اسمه عمر. كان عمر لديه ثمانية أذرع قوية. استخدم عمر كل أذرعه لمساعدة حيوانات البحر. كان يساعد السلطعون في حمل الأشياء الثقيلة، ويساعد الأسماك الصغيرة في تنظيف بيوتها، ويساعد السلحفاة في جمع الطعام. أصبح عمر الأخطبوط المفضل لكل حيوانات البحر. تعلم الجميع أن المساعدة والعطاء يجعلاننا سعداء، وأن القدرات الخاصة التي نملكها يجب أن نستخدمها لمساعدة من حولنا. أصبح البحر مكاناً أفضل بفضل عمر!'
+            },
+            {
+                icon: '🌻',
+                title: 'عباد الشمس السعيد',
+                description: 'في حقل واسع، نمت زهرة عباد شمس جميلة اسمها سلمى. كانت سلمى دائماً تنظر إلى الشمس وتبتسم. كانت ابتسامة سلمى معدية، فكل من يراها يشعر بالسعادة. في يوم غائم، شعر جميع النباتات بالحزن لعدم وجود الشمس. لكن سلمى استمرت بالابتسام ونشر السعادة. علمت سلمى النباتات الأخرى أن السعادة تأتي من الداخل، وليس من الظروف الخارجية. عندما عادت الشمس، كان الحقل كله يبتسم. أصبح حقل عباد الشمس أسعد مكان في العالم!'
+            },
+            {
+                icon: '🎪',
+                title: 'السيرك المذهل',
+                description: 'جاء سيرك مذهل إلى المدينة! كان في السيرك مهرجون مضحكون، وأسود شجاعة، وفيلة ترقص، وبهلوانات يطيرون في الهواء. كان هناك طفل صغير اسمه كريم خائف من كل شيء. أخذه والده إلى السيرك. شاهد كريم كيف يواجه المهرجون خوفهم، وكيف يثق البهلوانات ببعضهم. تشجع كريم وشارك في عرض للأطفال. اكتشف كريم أنه عندما نواجه مخاوفنا، نصبح أقوى. أصبح السيرك مكانه المفضل، وتعلم منه دروساً كثيرة عن الشجاعة والثقة والمرح!'
+            },
+            {
+                icon: '🦅',
+                title: 'النسر الحكيم',
+                description: 'على قمة جبل عالٍ، عاش نسر حكيم اسمه حازم. كان حازم يرى كل شيء من الأعلى ويفهم الحياة بعمق. كانت حيوانات الغابة تأتي إليه طلباً للنصيحة. علم حازم الأرنب أن السرعة يجب أن ترافقها الحكمة، وعلم الأسد أن القوة يجب أن تستخدم للحماية لا للتخويف، وعلم القرد أن المرح يجب أن يكون مع الاحترام. أصبحت الغابة مكاناً أفضل بفضل حكمة حازم. تعلم الجميع أن الحكمة والمعرفة أهم من أي شيء آخر، وأن مساعدة الآخرين بالنصيحة الجيدة هدية عظيمة!'
+            },
+            {
+                icon: '⛵',
+                title: 'القارب المغامر',
+                description: 'في ميناء صغير، كان هناك قارب صغير اسمه قيس. كان قيس يحلم بالإبحار في المحيط الكبير. كل القوارب الأخرى كانت تضحك عليه لأنه صغير. لكن قيس لم يستسلم. في يوم عاصف، أبحر قيس في البحر. واجه أمواجاً كبيرة وعواصف قوية، لكنه لم يتراجع. اكتشف قيس جزراً جميلة وحيوانات بحرية رائعة. عاد قيس بطلاً، وتعلمت كل القوارب أن الحجم لا يهم، بل الشجاعة والإصرار هما ما يصنعان البطل. أصبح قيس مصدر إلهام لكل القوارب الصغيرة!'
+            },
+            {
+                icon: '🐝',
+                title: 'النحلة النشيطة',
+                description: 'في خلية نحل كبيرة، عاشت نحلة صغيرة اسمها نادية. كانت نادية أكثر النحلات نشاطاً وحباً للعمل. كل يوم، كانت نادية تطير من زهرة إلى زهرة، تجمع الرحيق وتصنع أجمل عسل. لم تكن نادية تعمل فقط لنفسها، بل كانت تساعد النحلات الأخريات وتعلم النحلات الصغيرات كيف يجمعن الرحيق. بفضل عمل نادية الدؤوب، كانت الخلية تنتج أفضل عسل في المنطقة. تعلمت جميع النحلات أن العمل الجاد والتفاني يجلبان النجاح، وأن مشاركة المعرفة تجعل الجميع أفضل!'
+            },
+            {
+                icon: '🎵',
+                title: 'الموسيقى السحرية',
+                description: 'في قرية هادئة، وجدت طفلة اسمها ملك صندوقاً قديماً مليئاً بالآلات الموسيقية السحرية. كان هناك فلوت يعزف ألحاناً تجعل الزهور تتفتح، وطبلة تجعل الأشجار ترقص، وعود يجعل الطيور تغني. بدأت ملك تعزف الموسيقى كل يوم، وتحولت القرية إلى مكان مليء بالفرح والسعادة. أصبحت القرية مشهورة بموسيقاها الجميلة، وكان الناس يأتون من كل مكان للاستماع. تعلمت ملك أن الموسيقى لغة عالمية تجمع القلوب، وأن الفن يمكنه أن يحول العالم إلى مكان أجمل!'
+            },
+            {
+                icon: '🌙',
+                title: 'القمر والنجوم',
+                description: 'في السماء الليلية، عاش القمر مع أصدقائه النجوم. كان القمر كبيراً ومضيئاً، والنجوم صغيرة ومتلألئة. كانوا يعملون معاً كل ليلة لإضاءة السماء. في بعض الليالي، كان القمر يختبئ ليعطي الفرصة للنجوم لتتألق أكثر. وفي ليالٍ أخرى، كانت النجوم تحيط بالقمر وتجعله يبدو أجمل. تعلم القمر والنجوم أن الصداقة الحقيقية تعني دعم بعضنا البعض، والتألق معاً. أصبحت السماء أجمل مكان بفضل صداقتهم، وأصبح الأطفال يحبون النظر إلى السماء كل ليلة!'
+            }
+        ];
+
+        function openModal(storyId) {
+            const story = stories[storyId - 1];
+            document.getElementById('modalIcon').textContent = story.icon;
+            document.getElementById('modalTitle').textContent = story.title;
+            document.getElementById('modalDescription').textContent = story.description;
+            document.getElementById('storyModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('storyModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function buyStory() {
+            const title = document.getElementById('modalTitle').textContent;
+            alert('🎉 رائع! تم إضافة قصة "' + title + '" إلى سلة التسوق!\n\nالسعر: 20 جنيه\n\nشكراً لك! 💖');
+            closeModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('storyModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
